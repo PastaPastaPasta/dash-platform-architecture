@@ -44,8 +44,9 @@
     <p>Public data stays public: use app-specific privacy controls for anything sensitive. A proof confirms stored data; it cannot tell you whether Maya’s details are true.</p>
 
   </section>
-  <h2 class="technical-title dh-section__title">The technical layer</h2>
-  <p class="sub">Dash Platform's core trick is symmetry: the crates that run consensus on evonodes compile again — storage-free — inside every client. <strong>One root hash, one BLS threshold signature, zero trusted servers.</strong> Select any component for its role, key facts, and source.</p>
+  <h2 class="technical-title dh-section__title">For builders: from app to network</h2>
+  <p class="sub">Your app uses an SDK to sign updates and ask an evonode for data. The evonode runs the rules and stores the result; your device checks the answer using a proof. You can use the SDK without implementing these layers yourself.</p>
+  <p class="sub">The map below names the software behind those three steps. Drive and GroveDB provide both the server’s query code and the client’s proof checks. A root hash identifies the stored state; a quorum’s BLS threshold signature attests to it. Select a component for the implementation details and source.</p>
   <p class="live">See it live: <a href="https://radar.dashhq.org/" data-family="radar" data-path="/">Radar</a> for evonodes · <a href="https://explorer.dashhq.org/" data-family="explorer" data-path="/">Explorer</a> for proofs.</p>
   <div class="legend">
     <span class="key"><span class="swatch server"></span> runs on evonodes</span>
@@ -56,15 +57,17 @@
 </div>
 
 <main class="board-wrap dh-container">
-  <nav class="stack-switch dh-seg" aria-label="Component stacks">
-    <a href="#execute-stack">1. Execute</a><a href="#shared-stack">2. Connect</a><a href="#verify-stack">3. Verify</a>
+  <nav id="relationships" class="relationship-map" aria-label="How the component stacks connect">
+    <a href="#execute-stack"><strong>Evonode</strong><span>Agree and store</span></a><span aria-hidden="true">↔</span>
+    <a href="#shared-stack"><strong>DAPI</strong><span>Updates out · data and proofs back</span></a><span aria-hidden="true">↔</span>
+    <a href="#verify-stack"><strong>Your app</strong><span>Sign and verify</span></a>
+    <p>Shared checks: <a href="#drive-verify">Drive ↔ Drive Verify</a> · <a href="#grovedb-verify">GroveDB ↔ GroveDB Verify</a>. The client checks the proof against the signed state.</p>
   </nav>
-  <p class="mobile-comparison stack-guide">Read one stack at a time, or jump between them. The same Drive and GroveDB code that runs on evonodes also checks answers on your device.</p>
   <div class="board" id="board">
     <svg id="traces" aria-hidden="true"></svg>
 
     <section class="col col-server" id="execute-stack" aria-label="Evonode stack">
-      <h2 class="col-head">Evonode — executes</h2>
+      <h2 class="col-head">Evonode · agree and store <a href="#relationships">Map ↑</a></h2>
       <button class="card dh-card" data-id="tenderdash" data-side="server">
         <span class="crate">go · dashpay/tenderdash</span>
         <span class="name">Tenderdash</span>
@@ -98,13 +101,13 @@
     </section>
 
     <section class="col col-spine" id="shared-stack" aria-label="Shared edge">
-      <h2 class="col-head">Shared edge</h2>
+      <h2 class="col-head">Connection · shared protocol <a href="#relationships">Map ↑</a></h2>
       <button class="card spine" data-id="dapi" data-side="shared">
         <span class="crate">rs-dapi · dapi-grpc · envoy</span>
         <span class="name">DAPI</span>
         <span class="role">Decentralized API on every evonode — no central RPC</span>
       </button>
-      <div class="spine-note" aria-hidden="true">⟵ gRPC · queries · broadcasts · proofs ⟶</div>
+      <div class="spine-note">gRPC transports updates, queries and proofs between the stacks.</div>
       <button class="card spine" data-id="dpp" data-side="shared">
         <span class="crate">rs-dpp</span>
         <span class="name">DPP</span>
@@ -113,7 +116,7 @@
     </section>
 
     <section class="col col-client" id="verify-stack" aria-label="Client stack">
-      <h2 class="col-head">Client — verifies</h2>
+      <h2 class="col-head">Your app · sign and verify <a href="#relationships">Map ↑</a></h2>
       <button class="card dh-card" data-id="client-app" data-side="client">
         <span class="crate">e.g. SwiftExampleApp</span>
         <span class="name">Client app</span>
@@ -127,7 +130,7 @@
       <button class="card dh-card" data-id="wallet-ffi" data-side="client">
         <span class="crate">rs-platform-wallet-ffi</span>
         <span class="name">Platform Wallet FFI</span>
-        <span class="role">371-function C ABI; host apps plug persistence in via a callback vtable</span>
+        <span class="role">Connects the app’s wallet to Rust; the host chooses how to save data</span>
       </button>
       <button class="card dh-card" data-id="platform-wallet" data-side="client">
         <span class="crate">rs-platform-wallet</span>
@@ -146,12 +149,12 @@
           <span class="role">key-wallet · SPV · masternode-list engine</span>
         </button>
       </div>
-      <button class="card dh-card" data-id="drive-verify" data-side="client">
+      <button class="card dh-card" id="drive-verify" data-id="drive-verify" data-side="client">
         <span class="crate">rs-drive --features verify</span>
         <span class="name">Drive Verify</span>
         <span class="role">The server's own query code, recompiled to check its answers</span>
       </button>
-      <button class="card dh-card" data-id="grovedb-verify" data-side="client">
+      <button class="card dh-card" id="grovedb-verify" data-id="grovedb-verify" data-side="client">
         <span class="crate">grovedb --features verify</span>
         <span class="name">GroveDB Verify</span>
         <span class="role">Proof execution without storage — runs in WASM and on phones</span>
@@ -159,7 +162,7 @@
       <button class="card dh-card" data-id="proof-check" data-side="client">
         <span class="crate">rs-drive-proof-verifier</span>
         <span class="name">Proof verification</span>
-        <span class="role">Rebuilt root hash + quorum key → one BLS check settles everything</span>
+        <span class="role">Checks that the proof’s root hash matches the network’s signed state</span>
       </button>
     </section>
 
@@ -190,7 +193,7 @@
   </div>
 </aside>
 
-<dashhq-footer product="arch" source="https://github.com/PastaPastaPasta/dash-platform-architecture">
+<dashhq-footer product="home" source="https://github.com/PastaPastaPasta/dash-platform-architecture">
 <p>Map derived on 25 Aug 2026 from Platform, GroveDB and rust-dashcore source checkouts.</p>
 <p><a href="https://dashpay.github.io/platform/">The Dash Platform book ↗</a></p>
 </dashhq-footer>

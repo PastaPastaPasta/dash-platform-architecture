@@ -285,7 +285,7 @@ const DATA = {
   "proof-check": {
     name: "Proof verification", side: "client", kind: "The trust anchor · Rust crate",
     crate: "packages/rs-drive-proof-verifier",
-    summary: "Where it all lands: Drive Verify rebuilds a root hash from the proof, that hash is planted into the block's StateId, and one BLS threshold-signature check against a quorum public key settles whether the answer is true.",
+    summary: "Where it all lands: Drive Verify rebuilds a root hash from the proof, that hash is checked against the block's signed StateId using a quorum public key. This confirms the answer matches stored state; it does not establish that a claim in the data is true.",
     facts: [
       "Stage 1 — pure math: rebuild <code>(root_hash, object)</code> from the GroveDB proof.",
       "Stage 2 — trust: fetch the quorum key via the ContextProvider, BLS-verify the signature over <code>StateId{app_hash = root_hash}</code>.",
@@ -409,10 +409,9 @@ addEventListener("keydown", e => {
 const TRACES = [
   { from: "drive-abci", to: "dapi", cls: "t-link" },
   { from: "dapi", to: "rs-sdk", cls: "t-link" },
-  { from: "drive", to: "drive-verify", cls: "t-twin", label: "same crate · verify", lcls: "twin" },
-  { from: "grovedb", to: "grovedb-verify", cls: "t-twin", label: "same crate · verify", lcls: "twin" },
-  { from: "tenderdash", to: "proof-check", cls: "t-proof", route: "spine",
-    label: "1 BLS threshold signature attests the root hash", lcls: "proof" }
+  { from: "drive", to: "drive-verify", cls: "t-twin" },
+  { from: "grovedb", to: "grovedb-verify", cls: "t-twin" },
+  { from: "tenderdash", to: "proof-check", cls: "t-proof", route: "spine" }
 ];
 
 const board = document.getElementById("board");
@@ -428,7 +427,6 @@ function anchor(el, side) {
 
 function drawTraces() {
   svg.innerHTML = "";
-  document.querySelectorAll(".trace-label").forEach(l => l.remove());
   if (innerWidth < 900) return;
 
   const b = board.getBoundingClientRect();
@@ -442,27 +440,16 @@ function drawTraces() {
     const c = anchor(toEl, "left");
     const midX = (a.x + c.x) / 2;
     const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    let labelX = midX, labelY = (a.y + c.y) / 2;
     if (t.route === "spine") {
       // dive into the center gap, run straight down it, then curve into the target
       p.setAttribute("d",
         `M ${a.x} ${a.y} C ${midX} ${a.y}, ${midX} ${a.y}, ${midX} ${a.y + 110}` +
         ` L ${midX} ${c.y - 110} C ${midX} ${c.y}, ${midX} ${c.y}, ${c.x} ${c.y}`);
-      labelY = c.y - 170; // on the straight segment, clear of the twin ties
     } else {
       p.setAttribute("d", `M ${a.x} ${a.y} C ${midX} ${a.y}, ${midX} ${c.y}, ${c.x} ${c.y}`);
     }
     p.setAttribute("class", t.cls);
     svg.appendChild(p);
-
-    if (t.label) {
-      const label = document.createElement("span");
-      label.className = "trace-label " + (t.lcls || "");
-      label.textContent = t.label;
-      label.style.left = labelX + "px";
-      label.style.top = labelY + "px";
-      board.appendChild(label);
-    }
   }
 }
 
@@ -470,12 +457,3 @@ addEventListener("load", drawTraces);
 addEventListener("resize", drawTraces);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawTraces);
 revealElements[revealElements.length - 1]?.addEventListener("animationend", drawTraces, { once: true });
-
-function syncStack() {
-  for (const link of document.querySelectorAll(".stack-switch a")) {
-    if (link.hash === (location.hash || "#execute-stack")) link.setAttribute("aria-current", "location");
-    else link.removeAttribute("aria-current");
-  }
-}
-addEventListener("hashchange", syncStack);
-syncStack();

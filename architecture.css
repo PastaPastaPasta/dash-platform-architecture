@@ -82,23 +82,6 @@
   #traces .t-twin { stroke: var(--shared); stroke-width: 1.5; stroke-dasharray: 3 5; }
   #traces .t-proof { stroke: var(--proof); stroke-width: 2; stroke-dasharray: 6 6; }
 
-  .trace-label {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius:var(--dh-r1);
-    padding: 3px 10px;
-    font-family: var(--dh-mono);
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-  .trace-label.proof { color: var(--proof); border-color: color-mix(in srgb, var(--proof) 45%, var(--line)); }
-  .trace-label.twin  { color: var(--shared); }
-
   .col { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
   .col-spine { padding-top: 84px; gap: 20px; }
 
@@ -338,7 +321,7 @@
 /* ---------- responsive ---------- */
   @media (max-width: 899px) {
     .board { grid-template-columns: 1fr; gap: 30px; }
-    #traces, .trace-label { display: none; }
+    #traces { display: none; }
     .col-spine { padding-top: 0; }
     .col-client .col-head { text-align: left; }
 }
@@ -352,8 +335,6 @@ body{font-size:15px}
 .live{color:var(--muted);font-size:14px;margin-top:16px}.live a{display:inline-block;padding:6px 2px;text-underline-offset:3px}
 .swatch.server,.basebar{border:1px solid color-mix(in srgb,var(--dh-plate-line) 40%,transparent)}
 .card:hover,.card:focus-visible,.basebar:hover,.basebar:focus-visible{transform:none;box-shadow:none}
-.trace-label{border-radius:var(--dh-r1)}
-.trace-label.proof{color:var(--dh-ink);border-color:var(--line)}
 .drawer-body code{white-space:normal;overflow-wrap:anywhere}
 .drawer-crate,.card .crate{overflow-wrap:anywhere}
 .links a{color:var(--dh-brand-ink);overflow-wrap:anywhere;min-height:40px}
@@ -365,9 +346,7 @@ body.details-open{overflow:hidden}
 
 .platform-intro{max-width:72ch;margin-top:28px}.platform-intro p{color:var(--dh-ink-2)}
 .platform-intro a{display:inline-block;min-height:40px;padding:8px 0}
-.mobile-comparison,.stack-switch{display:none}
 .col{scroll-margin-top:76px}
-@media(max-width:899px){.desktop-comparison{display:none}.mobile-comparison{display:block}.stack-switch{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.stack-guide{color:var(--dh-ink-2);margin:0 0 24px}}
 
 .walkthrough { margin: 28px 0 40px; max-width: 76ch; }
 .walkthrough ol { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; list-style: none; padding: 0; margin: 24px 0; }
@@ -378,3 +357,23 @@ body.details-open{overflow:hidden}
 @media(max-width:640px) { .walkthrough ol { grid-template-columns: 1fr; gap: 16px; } }
 
 .drawer-close{position:absolute;top:18px;right:18px}
+
+body { min-height: 100vh; display: flex; flex-direction: column; }
+dashhq-footer { margin-top: auto; padding-top: 32px; }
+.relationship-map { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 12px; align-items: center; padding: 18px; margin-bottom: 24px; background: var(--dh-surface); border: 1px solid var(--dh-line); border-radius: var(--dh-r3); }
+.relationship-map > a { display: grid; gap: 4px; text-decoration: none; color: var(--dh-brand-ink); }
+.relationship-map > a span { color: var(--dh-ink-2); font-size: 13px; }
+.relationship-map p { grid-column: 1/-1; margin: 4px 0 0; font-size: 13px; color: var(--dh-ink-2); }
+.relationship-map a:hover { text-decoration: underline; }
+.spine-note { background: var(--dh-page); padding: 8px; line-height: 1.5; }
+#drive-verify, #grovedb-verify { scroll-margin-top: 84px; }
+@media(max-width:899px) {
+  .relationship-map { gap: 8px; padding: 14px 10px; }
+  .relationship-map > a { min-height: 44px; font-size: 14px; }
+  .relationship-map > a span { font-size: 12px; }
+  .col-head { position: sticky; top: 56px; background: var(--dh-page); z-index: 3; padding-block: 10px; }
+}
+
+.col-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.col-head a { white-space: nowrap; font-weight: 500; text-underline-offset: 3px; }
+#relationships { scroll-margin-top: 76px; }
