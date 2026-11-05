@@ -347,7 +347,7 @@ function openDrawer(id) {
     d.links.map(l => `<li><a href="${l.href}">${l.label}</a></li>`).join("");
   document.getElementById("drawer-related").innerHTML =
     (d.related || []).filter(r => DATA[r])
-      .map(r => `<button type="button" data-goto="${r}">${DATA[r].name}</button>`).join("");
+      .map(r => `<button class="dh-btn dh-btn--sm" type="button" data-goto="${r}">${DATA[r].name}</button>`).join("");
 
   if (drawer.hidden) {
     lastFocus = document.activeElement;
@@ -470,3 +470,12 @@ addEventListener("load", drawTraces);
 addEventListener("resize", drawTraces);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawTraces);
 revealElements[revealElements.length - 1]?.addEventListener("animationend", drawTraces, { once: true });
+
+function syncStack() {
+  for (const link of document.querySelectorAll(".stack-switch a")) {
+    if (link.hash === (location.hash || "#execute-stack")) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  }
+}
+addEventListener("hashchange", syncStack);
+syncStack();
