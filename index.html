@@ -12,7 +12,8 @@
 <link rel="icon" href="/dashhq/mark/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/architecture.css">
 <script src="/architecture.js" defer></script>
-<title>Dash Platform — Architecture Map</title>
+<title>How Platform works · Architecture · dashhq</title>
+<meta name="description" content="What Dash Platform does, and how evonodes execute updates while clients verify their answers.">
 
 </head>
 <body>
@@ -21,7 +22,13 @@
 <dashhq-bar product="arch" sticky></dashhq-bar>
 <header class="masthead">
   <div class="eyebrow">Dash Platform · architecture map · derived from source</div>
-  <h1><span class="execute">Execute on the left.</span><br><span class="verify">Verify on the right.</span></h1>
+  <h1><span class="desktop-comparison"><span class="execute">Execute on the left.</span><br><span class="verify">Verify on the right.</span></span><span class="mobile-comparison">Evonodes execute.<br>Clients verify.</span></h1>
+  <section class="platform-intro" aria-label="Platform in plain language">
+    <h2>Shared data for apps, secured by Dash</h2>
+    <p>Core handles DASH payments. Platform adds identities, human-readable usernames and shared documents: the building blocks of a contact list, a post or a poll. Data contracts define which documents an app can store.</p>
+    <p>Evonodes agree on updates. Your app can check a proof that an answer matches the network’s signed data, instead of trusting the server that delivered it. That checks what was stored, not whether its content is true.</p>
+    <p><a href="https://explorer.dashhq.org/dpns?name=pasta" data-family="explorer" data-path="/dpns?name=pasta">Inspect a real username →</a> · <a href="https://pollr.dashhq.org/" data-family="pollr" data-path="/">See public polls →</a> · <a href="#board">Explore the components below ↓</a></p>
+  </section>
   <p class="sub">Dash Platform's core trick is symmetry: the crates that run consensus on evonodes compile again — storage-free — inside every client. <strong>One root hash, one BLS threshold signature, zero trusted servers.</strong> Select any component for its role, key facts, and source.</p>
   <p class="live">See it live: <a href="https://radar.dashhq.org/" data-family="radar" data-path="/">Radar</a> for evonodes · <a href="https://explorer.dashhq.org/" data-family="explorer" data-path="/">Explorer</a> for proofs.</p>
   <div class="legend">
@@ -33,10 +40,14 @@
 </header>
 
 <main class="board-wrap">
+  <nav class="stack-switch" aria-label="Component stacks">
+    <a href="#execute-stack">1. Execute</a><a href="#shared-stack">2. Connect</a><a href="#verify-stack">3. Verify</a>
+  </nav>
+  <p class="mobile-comparison stack-guide">Read one stack at a time, or jump between them. The same Drive and GroveDB code that runs on evonodes also checks answers on your device.</p>
   <div class="board" id="board">
     <svg id="traces" aria-hidden="true"></svg>
 
-    <section class="col col-server" aria-label="Evonode stack">
+    <section class="col col-server" id="execute-stack" aria-label="Evonode stack">
       <h2 class="col-head">Evonode — executes</h2>
       <button class="card" data-id="tenderdash" data-side="server">
         <span class="crate">go · dashpay/tenderdash</span>
@@ -70,7 +81,7 @@
       </button>
     </section>
 
-    <section class="col col-spine" aria-label="Shared edge">
+    <section class="col col-spine" id="shared-stack" aria-label="Shared edge">
       <h2 class="col-head">Shared edge</h2>
       <button class="card spine" data-id="dapi" data-side="shared">
         <span class="crate">rs-dapi · dapi-grpc · envoy</span>
@@ -85,7 +96,7 @@
       </button>
     </section>
 
-    <section class="col col-client" aria-label="Client stack">
+    <section class="col col-client" id="verify-stack" aria-label="Client stack">
       <h2 class="col-head">Client — verifies</h2>
       <button class="card" data-id="client-app" data-side="client">
         <span class="crate">e.g. SwiftExampleApp</span>
