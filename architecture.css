@@ -440,3 +440,12 @@ body.details-open{overflow:hidden}
 .mobile-comparison,.stack-switch{display:none}
 .col{scroll-margin-top:76px}
 @media(max-width:899px){.desktop-comparison{display:none}.mobile-comparison{display:block}.stack-switch{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.stack-switch a{display:inline-flex;align-items:center;min-height:42px;padding:8px 12px;border:1px solid var(--dh-line-2);border-radius:var(--dh-r2);background:var(--dh-surface)}.stack-guide{color:var(--dh-ink-2);margin:0 0 24px}}
+
+.walkthrough { margin: 28px 0 40px; max-width: 76ch; }
+.walkthrough ol { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; list-style: none; padding: 0; margin: 24px 0; }
+.walkthrough li { border-top: 2px solid var(--dh-line); padding-top: 12px; }
+.walkthrough h3 { margin: 0 0 8px; font-size: 18px; }
+.walkthrough p { color: var(--dh-ink-2); }
+.walkthrough > p + p { margin-top: 16px; }
+.technical-title { margin-top: 32px; }
+@media(max-width:640px) { .walkthrough ol { grid-template-columns: 1fr; gap: 16px; } }

@@ -21,14 +21,26 @@
 <a class="skip" href="#board">Skip to the component map</a>
 <dashhq-bar product="arch" sticky></dashhq-bar>
 <header class="masthead">
-  <div class="eyebrow">Dash Platform · architecture map · derived from source</div>
-  <h1><span class="desktop-comparison"><span class="execute">Execute on the left.</span><br><span class="verify">Verify on the right.</span></span><span class="mobile-comparison">Evonodes execute.<br>Clients verify.</span></h1>
+  <div class="eyebrow">Dash Platform · learn, then explore the architecture</div>
+  <h1>What is Dash Platform?</h1>
   <section class="platform-intro" aria-label="Platform in plain language">
     <h2>Shared data for apps, secured by Dash</h2>
     <p>Core handles DASH payments. Platform adds identities, human-readable usernames and shared documents: the building blocks of a contact list, a post or a poll. Data contracts define which documents an app can store.</p>
     <p>Evonodes agree on updates. Your app can check a proof that an answer matches the network’s signed data, instead of trusting the server that delivered it. That checks what was stored, not whether its content is true.</p>
-    <p><a href="https://explorer.dashhq.org/dpns?name=pasta" data-family="explorer" data-path="/dpns?name=pasta">Inspect a real username →</a> · <a href="https://pollr.dashhq.org/" data-family="pollr" data-path="/">See public polls →</a> · <a href="#board">Explore the components below ↓</a></p>
+    <p><a href="https://explorer.dashhq.org/dpns/?name=dashpay.dash&amp;network=mainnet" data-family="explorer" data-path="/dpns/?name=dashpay.dash" data-network="mainnet">Inspect dashpay.dash on Mainnet →</a> · <a href="https://pollr.dashhq.org/" data-family="pollr" data-path="/" data-network="testnet">Pollr · Testnet archive →</a> · <a href="#board">Explore the components below ↓</a></p>
   </section>
+  <section class="walkthrough" aria-labelledby="walkthrough-title">
+    <h2 id="walkthrough-title">One app action, three steps</h2>
+    <p>Imagine saving a contact called Maya in an app. An identity is the account doing the saving; a data contract defines the shape of a contact.</p>
+    <ol>
+      <li><h3>1. Write</h3><p>Your app signs an update with your identity’s key and pays a small credit fee. The contact must follow the app’s contract.</p></li>
+      <li><h3>2. Agree</h3><p>Evonodes check the signature and rules, agree on the update, and store it. Other apps can read the same permitted data.</p></li>
+      <li><h3>3. Read and check</h3><p>An app asks for the contact and checks a proof against the network’s signed state. It can verify that “Maya” is what was stored, even if the answering server is unfamiliar.</p></li>
+    </ol>
+    <p>Public data stays public: use app-specific privacy controls for anything sensitive. A proof confirms stored data; it cannot tell you whether Maya’s details are true.</p>
+    <p><a class="dh-btn" href="#board">Explore the technical component map ↓</a></p>
+  </section>
+  <h2 class="technical-title">The technical layer</h2>
   <p class="sub">Dash Platform's core trick is symmetry: the crates that run consensus on evonodes compile again — storage-free — inside every client. <strong>One root hash, one BLS threshold signature, zero trusted servers.</strong> Select any component for its role, key facts, and source.</p>
   <p class="live">See it live: <a href="https://radar.dashhq.org/" data-family="radar" data-path="/">Radar</a> for evonodes · <a href="https://explorer.dashhq.org/" data-family="explorer" data-path="/">Explorer</a> for proofs.</p>
   <div class="legend">
