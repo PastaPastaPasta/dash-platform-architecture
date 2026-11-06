@@ -377,3 +377,19 @@ dashhq-footer { margin-top: auto; padding-top: 32px; }
 .col-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .col-head a { white-space: nowrap; font-weight: 500; text-underline-offset: 3px; }
 #relationships { scroll-margin-top: 76px; }
+
+.action-map { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 12px; margin: 20px 0; padding: 20px 16px; background: var(--dh-plate); color: var(--dh-plate-ink); border-radius: var(--dh-r3); }
+.action-map__node { display: grid; gap: 4px; min-width: 0; }
+.action-map__node > span { font-size: 13px; }
+.action-map__node small { font-size: 12px; }
+.action-map__arrow { color: var(--dh-act); font-size: 22px; }
+#board { scroll-margin-top: 84px; }
+.stack-path { line-height: 1.8; }
+@media(max-width:640px) {
+  .action-map { gap: 6px; padding: 16px 10px; }
+  .action-map__node > span, .action-map__node small { font-size: 11px; }
+  .action-map__node strong { font-size: 13px; }
+  .action-map__arrow { font-size: 16px; }
+  .walkthrough { margin-top: 20px; }
+  #drive-verify, #grovedb-verify { scroll-margin-top: 124px; }
+}
