@@ -30,7 +30,7 @@
   .masthead h1 .verify { color: var(--dh-brand-ink); }
   .masthead .sub {
     margin: 18px 0 0;
-    max-width: 62ch;
+    max-width: 68ch;
     font-size: 16px;
     color: var(--muted);
   }
@@ -344,11 +344,12 @@ dashhq-footer p{margin:8px 0}
 
 body.details-open{overflow:hidden}
 
-.platform-intro{max-width:72ch;margin-top:28px}.platform-intro p{color:var(--dh-ink-2)}
+.platform-intro{max-width:68ch;margin-top:28px}.platform-intro p{color:var(--dh-ink-2)}
 .platform-intro a{display:inline-block;min-height:40px;padding:8px 0}
 .col{scroll-margin-top:76px}
 
-.walkthrough { margin: 28px 0 40px; max-width: 76ch; }
+.walkthrough { margin: 28px 0 40px; }
+.walkthrough > p { max-width: 68ch; }
 .walkthrough ol { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; list-style: none; padding: 0; margin: 24px 0; }
 .walkthrough li { border-top: 2px solid var(--dh-line); padding-top: 12px; }
 .walkthrough p { color: var(--dh-ink-2); }
@@ -378,18 +379,17 @@ dashhq-footer { margin-top: auto; padding-top: 32px; }
 .col-head a { white-space: nowrap; font-weight: 500; text-underline-offset: 3px; }
 #relationships { scroll-margin-top: 76px; }
 
-.action-map { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 12px; margin: 20px 0; padding: 20px 16px; background: var(--dh-plate); color: var(--dh-plate-ink); border-radius: var(--dh-r3); }
+.action-map { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: start; gap: 12px; margin: 20px 0; padding: 20px 16px; background: var(--dh-plate); color: var(--dh-plate-ink); border-radius: var(--dh-r3); }
 .action-map__node { display: grid; gap: 4px; min-width: 0; }
 .action-map__node > span { font-size: 13px; }
 .action-map__node small { font-size: 12px; }
 .action-map__arrow { color: var(--dh-act); font-size: 22px; }
 #board { scroll-margin-top: 84px; }
 .stack-path { line-height: 1.8; }
-@media(max-width:640px) {
-  .action-map { gap: 6px; padding: 16px 10px; }
-  .action-map__node > span, .action-map__node small { font-size: 11px; }
-  .action-map__node strong { font-size: 13px; }
-  .action-map__arrow { font-size: 16px; }
+@media(max-width:599px) {
+  .action-map { grid-template-columns: 1fr; gap: 12px; padding: 20px; }
+  .action-map__node > span, .action-map__node small, .action-map__node strong { font-size: 15px; }
+  .action-map__arrow { justify-self: start; transform: rotate(90deg); font-size: 22px; }
   .walkthrough { margin-top: 20px; }
   #drive-verify, #grovedb-verify { scroll-margin-top: 124px; }
 }
