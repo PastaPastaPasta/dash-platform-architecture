@@ -392,3 +392,5 @@ dashhq-footer { margin-top: auto; padding-top: 32px; }
   .component-index__groups > :last-child { grid-column: 1 / -1; }
   .component-index__groups > :last-child ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
 }
+
+.col-spine .col-head { flex-direction: column; background: var(--dh-page); padding-block: 8px; }
