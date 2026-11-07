@@ -49,7 +49,7 @@
     <h2 class="dh-section__title">Shared data for apps, secured by Dash</h2>
 
     <p>Follow a real name record in Explorer, or see how an app uses shared documents in Governance polls.</p>
-    <p><a href="https://explorer.dashhq.org/dpns/?name=dashpay.dash&amp;network=mainnet" data-family="explorer" data-path="/dpns/?name=dashpay.dash" data-network="mainnet">Inspect dashpay.dash on Mainnet →</a> · <a href="https://gov.dashhq.org/polls?network=testnet" data-family="gov" data-path="/polls" data-network="testnet">Governance polls · Testnet →</a> · <a href="#board">Explore the components below ↓</a></p>
+    <p class="dh-meta"><span><a href="https://explorer.dashhq.org/dpns/?name=dashpay.dash&amp;network=mainnet" data-family="explorer" data-path="/dpns/?name=dashpay.dash" data-network="mainnet">Inspect dashpay.dash on Mainnet →</a></span><span><a href="https://gov.dashhq.org/polls?network=testnet" data-family="gov" data-path="/polls" data-network="testnet">Governance polls on Testnet →</a></span><span><a href="#board">Explore the components below ↓</a></span></p>
   </section>
   <h2 class="technical-title dh-section__title">For builders: from app to network</h2>
   <p class="sub">Your app uses an SDK to sign updates and ask an evonode for data. The evonode runs the rules and stores the result; your device checks the answer using a proof. You can use the SDK without implementing these layers yourself.</p>
@@ -71,112 +71,145 @@
     <p class="stack-path"><strong>Server path:</strong> Tenderdash → Drive ABCI → Drive → GroveDB → storage.<br><strong>Client path:</strong> SDK → DAPI → proof checks → signed state.</p>
     <p>Shared checks: <a href="#drive-verify">Drive ↔ Drive Verify</a> · <a href="#grovedb-verify">GroveDB ↔ GroveDB Verify</a>. The client checks the proof against the signed state.</p>
   </nav>
+  <nav class="component-nav" aria-label="Component index">
+    <p class="dh-meta component-groups"><span><a href="#execute-stack">Server</a></span><span><a href="#shared-stack">Shared protocol</a></span><span><a href="#verify-stack">Client</a></span></p>
+    <details class="dh-disclosure" id="component-index">
+      <summary><span>Jump to a component</span></summary>
+      <div class="component-index__groups">
+        <div><h3 class="dh-h3">Server</h3><ul>
+          <li><a href="#tenderdash">Tenderdash</a></li>
+          <li><a href="#drive-abci">Drive ABCI</a></li>
+          <li><a href="#drive">Drive</a></li>
+          <li><a href="#grovedb">GroveDB</a></li>
+          <li><a href="#trees">Tree structures</a></li>
+          <li><a href="#rocksdb">RocksDB storage</a></li>
+        </ul></div>
+        <div><h3 class="dh-h3">Shared protocol</h3><ul>
+          <li><a href="#dapi">DAPI</a></li>
+          <li><a href="#dpp">DPP</a></li>
+        </ul><h3 class="dh-h3">Layer 1</h3><ul>
+          <li><a href="#dash-core">Dash Core</a></li>
+        </ul></div>
+        <div><h3 class="dh-h3">Client</h3><ul>
+          <li><a href="#client-app">Client app</a></li>
+          <li><a href="#bindings">SDK bindings</a></li>
+          <li><a href="#wallet-ffi">Platform Wallet FFI</a></li>
+          <li><a href="#platform-wallet">Platform Wallet</a></li>
+          <li><a href="#rs-sdk">RS SDK</a></li>
+          <li><a href="#rust-dashcore">Rust Dash Core</a></li>
+          <li><a href="#drive-verify">Drive Verify</a></li>
+          <li><a href="#grovedb-verify">GroveDB Verify</a></li>
+          <li><a href="#proof-check">Proof verification</a></li>
+        </ul></div>
+      </div>
+    </details>
+  </nav>
   <div class="board" id="board">
     <svg id="traces" aria-hidden="true"></svg>
 
     <section class="col col-server" id="execute-stack" aria-label="Evonode stack">
-      <h2 class="col-head">Evonode · agree and store <a href="#relationships">Map ↑</a></h2>
-      <button class="card dh-card" data-id="tenderdash" data-side="server">
+      <h2 class="col-head dh-h3">Evonode · agree and store <a href="#component-index">Index ↑</a></h2>
+      <button class="card dh-card" id="tenderdash" data-id="tenderdash" data-side="server">
         <span class="crate">go · dashpay/tenderdash</span>
-        <span class="name">Tenderdash</span>
+        <span class="name dh-h3">Tenderdash</span>
         <span class="role">BFT consensus; each block signed by one quorum BLS threshold signature</span>
       </button>
-      <button class="card dh-card" data-id="drive-abci" data-side="server">
+      <button class="card dh-card" id="drive-abci" data-id="drive-abci" data-side="server">
         <span class="crate">rs-drive-abci</span>
-        <span class="name">Drive ABCI</span>
+        <span class="name dh-h3">Drive ABCI</span>
         <span class="role">Execution layer: validates state transitions, commits the root hash as app hash</span>
       </button>
-      <button class="card dh-card" data-id="drive" data-side="server">
+      <button class="card dh-card" id="drive" data-id="drive" data-side="server">
         <span class="crate">rs-drive</span>
-        <span class="name">Drive</span>
+        <span class="name dh-h3">Drive</span>
         <span class="role">State layout, secondary indexes, the query engine, deterministic fees</span>
       </button>
-      <button class="card dh-card" data-id="grovedb" data-side="server">
+      <button class="card dh-card" id="grovedb" data-id="grovedb" data-side="server">
         <span class="crate">grovedb</span>
-        <span class="name">GroveDB</span>
+        <span class="name dh-h3">GroveDB</span>
         <span class="role">Hierarchy of Merkle trees under a single provable root hash</span>
       </button>
-      <button class="card dh-card" data-id="trees" data-side="server">
+      <button class="card dh-card" id="trees" data-id="trees" data-side="server">
         <span class="crate">merk · mmr · bulk-append · commitment</span>
-        <span class="name">Tree structures</span>
+        <span class="name dh-h3">Tree structures</span>
         <span class="role">Merkle AVL trees plus append-only structures for special workloads</span>
       </button>
-      <button class="card dh-card" data-id="rocksdb" data-side="server">
+      <button class="card dh-card" id="rocksdb" data-id="rocksdb" data-side="server">
         <span class="crate">grovedb-storage</span>
-        <span class="name">RocksDB storage</span>
+        <span class="name dh-h3">RocksDB storage</span>
         <span class="role">Key-value bottom: 4 column families, blake3 prefix per subtree</span>
       </button>
     </section>
 
     <section class="col col-spine" id="shared-stack" aria-label="Shared edge">
-      <h2 class="col-head">Connection · shared protocol <a href="#relationships">Map ↑</a></h2>
-      <button class="card spine dh-card" data-id="dapi" data-side="shared">
+      <h2 class="col-head dh-h3">Connection · shared protocol <a href="#component-index">Index ↑</a></h2>
+      <button class="card spine dh-card" id="dapi" data-id="dapi" data-side="shared">
         <span class="crate">rs-dapi · dapi-grpc · envoy</span>
-        <span class="name">DAPI</span>
+        <span class="name dh-h3">DAPI</span>
         <span class="role">Decentralized API on every evonode — no central RPC</span>
       </button>
       <div class="spine-note">gRPC transports updates, queries and proofs between the stacks.</div>
-      <button class="card spine dh-card" data-id="dpp" data-side="shared">
+      <button class="card spine dh-card" id="dpp" data-id="dpp" data-side="shared">
         <span class="crate">rs-dpp</span>
-        <span class="name">DPP</span>
+        <span class="name dh-h3">DPP</span>
         <span class="role">The shared protocol: identities, contracts, documents, tokens, state transitions</span>
       </button>
     </section>
 
     <section class="col col-client" id="verify-stack" aria-label="Client stack">
-      <h2 class="col-head">Your app · sign and verify <a href="#relationships">Map ↑</a></h2>
-      <button class="card dh-card" data-id="client-app" data-side="client">
+      <h2 class="col-head dh-h3">Your app · sign and verify <a href="#component-index">Index ↑</a></h2>
+      <button class="card dh-card" id="client-app" data-id="client-app" data-side="client">
         <span class="crate">e.g. SwiftExampleApp</span>
-        <span class="name">Client app</span>
+        <span class="name dh-h3">Client app</span>
         <span class="role">UI + platform persistence; keys stay in the OS keystore</span>
       </button>
-      <button class="card dh-card" data-id="bindings" data-side="client">
+      <button class="card dh-card" id="bindings" data-id="bindings" data-side="client">
         <span class="crate">swift-sdk · kotlin-sdk · js-evo-sdk</span>
-        <span class="name">SDK bindings</span>
+        <span class="name dh-h3">SDK bindings</span>
         <span class="role">Thin native shells over one Rust core — C ABI, JNI, and WASM</span>
       </button>
-      <button class="card dh-card" data-id="wallet-ffi" data-side="client">
+      <button class="card dh-card" id="wallet-ffi" data-id="wallet-ffi" data-side="client">
         <span class="crate">rs-platform-wallet-ffi</span>
-        <span class="name">Platform Wallet FFI</span>
+        <span class="name dh-h3">Platform Wallet FFI</span>
         <span class="role">Connects the app’s wallet to Rust; the host chooses how to save data</span>
       </button>
-      <button class="card dh-card" data-id="platform-wallet" data-side="client">
+      <button class="card dh-card" id="platform-wallet" data-id="platform-wallet" data-side="client">
         <span class="crate">rs-platform-wallet</span>
-        <span class="name">Platform Wallet</span>
+        <span class="name dh-h3">Platform Wallet</span>
         <span class="role">Identities, DashPay contacts, names, tokens, asset locks, shielded notes</span>
       </button>
       <div class="duo">
-        <button class="card dh-card" data-id="rs-sdk" data-side="client">
+        <button class="card dh-card" id="rs-sdk" data-id="rs-sdk" data-side="client">
           <span class="crate">rs-sdk</span>
-          <span class="name">RS SDK</span>
+          <span class="name dh-h3">RS SDK</span>
           <span class="role">Fetch &amp; broadcast with proofs on by default</span>
         </button>
-        <button class="card dh-card" data-id="rust-dashcore" data-side="client">
+        <button class="card dh-card" id="rust-dashcore" data-id="rust-dashcore" data-side="client">
           <span class="crate">rust-dashcore</span>
-          <span class="name">Rust Dash Core</span>
+          <span class="name dh-h3">Rust Dash Core</span>
           <span class="role">key-wallet · SPV · masternode-list engine</span>
         </button>
       </div>
       <button class="card dh-card" id="drive-verify" data-id="drive-verify" data-side="client">
         <span class="crate">rs-drive --features verify</span>
-        <span class="name">Drive Verify</span>
+        <span class="name dh-h3">Drive Verify</span>
         <span class="role">The server's own query code, recompiled to check its answers</span>
       </button>
       <button class="card dh-card" id="grovedb-verify" data-id="grovedb-verify" data-side="client">
         <span class="crate">grovedb --features verify</span>
-        <span class="name">GroveDB Verify</span>
+        <span class="name dh-h3">GroveDB Verify</span>
         <span class="role">Proof execution without storage — runs in WASM and on phones</span>
       </button>
-      <button class="card dh-card" data-id="proof-check" data-side="client">
+      <button class="card dh-card" id="proof-check" data-id="proof-check" data-side="client">
         <span class="crate">rs-drive-proof-verifier</span>
-        <span class="name">Proof verification</span>
+        <span class="name dh-h3">Proof verification</span>
         <span class="role">Checks that the proof’s root hash matches the network’s signed state</span>
       </button>
     </section>
 
-    <button class="basebar" data-id="dash-core">
+    <button class="basebar" id="dash-core" data-id="dash-core">
       <span class="crate">Layer 1</span>
-      <span class="name">Dash Core</span>
+      <span class="name dh-h3">Dash Core</span>
       <span class="role">Both columns stand on it: evonodes read it over RPC (chainlocks, masternode lists, quorums); clients sync it over P2P (dash-spv). Credits enter via asset locks, leave via quorum-signed asset unlocks.</span>
     </button>
   </div>
@@ -186,9 +219,9 @@
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
   <header class="drawer-top">
     <span class="drawer-kind" id="drawer-kind"></span>
-    <h2 id="drawer-title"></h2>
+    <h2 class="dh-h2" id="drawer-title"></h2>
     <span class="drawer-crate" id="drawer-crate"></span>
-    <button class="drawer-close dh-btn dh-btn--quiet dh-btn--sm" id="drawer-close" aria-label="Close details">Close</button>
+    <button class="drawer-close dh-btn dh-btn--quiet dh-btn--icon" id="drawer-close" type="button" aria-label="Close details"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
   </header>
   <div class="drawer-body">
     <p class="summary" id="drawer-summary"></p>
