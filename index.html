@@ -13,64 +13,26 @@
 <link rel="stylesheet" href="/architecture.css">
 <script src="/architecture.js" defer></script>
 <title>How Platform works · Architecture · dashhq</title>
-<meta name="description" content="What Dash Platform does, and how evonodes execute updates while clients verify their answers.">
+<meta name="description" content="Execute on evonodes, verify on the client: explore Dash Platform’s components, shared data and signed-state proofs.">
 
 </head>
 <body>
 
 <a class="skip" href="#board">Skip to the component map</a>
 <dashhq-bar product="arch" sticky></dashhq-bar>
-<div class="masthead dh-container dh-page">
+<div class="masthead arch-hero dh-container dh-page">
   <header class="dh-page-header dh-page-header--home">
-  <div class="dh-page-header__kicker">Dash Platform · learn, then explore the architecture</div>
-  <h1 class="dh-page-header__title">What is Dash Platform?</h1>
-  <p class="dh-page-header__lede">Core handles DASH payments. Platform adds identities, human-readable usernames and shared documents: the building blocks of a contact list, a post or a poll. Data contracts define which documents an app can store.</p>
-  <div class="dh-page-header__actions"><a class="dh-btn" href="#relationships">Explore the technical component map ↓</a></div>
+  <div class="dh-page-header__kicker">Dash Platform · architecture map</div>
+  <h1 class="dh-page-header__title"><span class="execute">Execute on the left.</span> <span class="verify">Verify on the right.</span></h1>
+  <p class="dh-page-header__lede">Platform adds identities, usernames and shared documents to Dash. Evonodes run the rules and store the data; your app checks every answer against one signed root hash, so it never has to trust the server. <a href="#walkthrough">New here? One app action, three steps ↓</a></p>
   </header>
-  <section class="walkthrough" aria-labelledby="walkthrough-title">
-    <h2 class="dh-section__title" id="walkthrough-title">One app action, three steps</h2>
-    <p>Imagine saving a contact called Maya in an app. An identity is the account doing the saving; a data contract defines the shape of a contact.</p>
-    <figure class="action-map" aria-label="An app signs an update; evonodes agree and store it; the app checks the returned proof">
-      <div class="action-map__node"><span>Your app</span><strong>Sign an update</strong><small>“Save Maya”</small></div>
-      <span class="action-map__arrow" aria-hidden="true">→</span>
-      <div class="action-map__node"><span>Evonodes</span><strong>Agree and store</strong><small>Check signature + rules</small></div>
-      <span class="action-map__arrow" aria-hidden="true">→</span>
-      <div class="action-map__node"><span>Your app</span><strong>Read and check</strong><small>Data + signed-state proof</small></div>
-    </figure>
-    <ol>
-      <li><h3 class="dh-h3">1. Write</h3><p>Your app signs an update with your identity’s key and pays a small credit fee. The contact must follow the app’s contract.</p></li>
-      <li><h3 class="dh-h3">2. Agree</h3><p>Evonodes check the signature and rules, agree on the update, and store it. Other apps can read the same permitted data.</p></li>
-      <li><h3 class="dh-h3">3. Read and check</h3><p>An app asks for the contact and checks a proof against the network’s signed state. It can verify that “Maya” is what was stored, even if the answering server is unfamiliar.</p></li>
-    </ol>
-    <p>Public data stays public: use app-specific privacy controls for anything sensitive. A proof confirms stored data; it cannot tell you whether Maya’s details are true.</p>
-
-  </section>
-  <section class="platform-intro" aria-label="Platform in plain language">
-    <h2 class="dh-section__title">Shared data for apps, secured by Dash</h2>
-
-    <p>Follow a real name record in Explorer, or see how an app uses shared documents in Governance polls.</p>
-    <p class="dh-meta"><span><a href="https://explorer.dashhq.org/dpns/?name=dashpay.dash&amp;network=mainnet" data-family="explorer" data-path="/dpns/?name=dashpay.dash" data-network="mainnet">Inspect dashpay.dash on Mainnet →</a></span><span><a href="https://gov.dashhq.org/polls?network=testnet" data-family="gov" data-path="/polls" data-network="testnet">Governance polls on Testnet →</a></span><span><a href="#board">Explore the components below ↓</a></span></p>
-  </section>
-  <h2 class="technical-title dh-section__title">For builders: from app to network</h2>
-  <p class="sub">Your app uses an SDK to sign updates and ask an evonode for data. The evonode runs the rules and stores the result; your device checks the answer using a proof. You can use the SDK without implementing these layers yourself.</p>
-  <p class="sub">The map below names the software behind those three steps. Drive and GroveDB provide both the server’s query code and the client’s proof checks. A root hash identifies the stored state; a quorum’s BLS threshold signature attests to it. Select a component for the implementation details and source.</p>
-  <p class="live">See it live: <a href="https://radar.dashhq.org/" data-family="radar" data-path="/">Radar</a> for evonodes · <a href="https://explorer.dashhq.org/" data-family="explorer" data-path="/">Explorer</a> for proofs.</p>
+  <div class="legend-row">
   <div class="legend">
     <span class="key"><span class="swatch server"></span> runs on evonodes</span>
     <span class="key"><span class="swatch client"></span> runs on the client</span>
     <span class="key"><span class="swatch shared"></span> shared</span>
     <span class="key"><span class="swatch proof"></span> proof path</span>
   </div>
-</div>
-
-<main class="board-wrap dh-container">
-  <nav id="relationships" class="relationship-map" aria-label="How the component stacks connect">
-    <a href="#execute-stack"><strong>Evonode</strong><span>Agree and store</span></a><span aria-hidden="true">↔</span>
-    <a href="#shared-stack"><strong>DAPI</strong><span>Updates out · data and proofs back</span></a><span aria-hidden="true">↔</span>
-    <a href="#verify-stack"><strong>Your app</strong><span>Sign and verify</span></a>
-    <p class="stack-path"><strong>Server path:</strong> Tenderdash → Drive ABCI → Drive → GroveDB → storage.<br><strong>Client path:</strong> SDK → DAPI → proof checks → signed state.</p>
-    <p>Shared checks: <a href="#drive-verify">Drive ↔ Drive Verify</a> · <a href="#grovedb-verify">GroveDB ↔ GroveDB Verify</a>. The client checks the proof against the signed state.</p>
-  </nav>
   <nav class="component-nav" aria-label="Component index">
     <p class="dh-meta component-groups"><span><a href="#execute-stack">Server</a></span><span><a href="#shared-stack">Shared protocol</a></span><span><a href="#verify-stack">Client</a></span></p>
     <details class="dh-disclosure" id="component-index">
@@ -103,6 +65,17 @@
         </ul></div>
       </div>
     </details>
+  </nav>
+  </div>
+</div>
+
+<main class="board-wrap dh-container">
+  <nav id="relationships" class="relationship-map" aria-label="How the component stacks connect">
+    <a href="#execute-stack"><strong>Evonode</strong><span>Agree and store</span></a><span aria-hidden="true">↔</span>
+    <a href="#shared-stack"><strong>DAPI</strong><span>Updates out · data and proofs back</span></a><span aria-hidden="true">↔</span>
+    <a href="#verify-stack"><strong>Your app</strong><span>Sign and verify</span></a>
+    <p class="stack-path"><strong>Server path:</strong> Tenderdash → Drive ABCI → Drive → GroveDB → storage.<br><strong>Client path:</strong> SDK → DAPI → proof checks → signed state.</p>
+    <p>Shared checks: <a href="#drive-verify">Drive ↔ Drive Verify</a> · <a href="#grovedb-verify">GroveDB ↔ GroveDB Verify</a>. The client checks the proof against the signed state.</p>
   </nav>
   <div class="board" id="board">
     <svg id="traces" aria-hidden="true"></svg>
@@ -212,6 +185,36 @@
       <span class="name dh-h3">Dash Core</span>
       <span class="role">Both columns stand on it: evonodes read it over RPC (chainlocks, masternode lists, quorums); clients sync it over P2P (dash-spv). Credits enter via asset locks, leave via quorum-signed asset unlocks.</span>
     </button>
+  </div>
+  <div class="after-board">
+  <section class="walkthrough" id="walkthrough" aria-labelledby="walkthrough-title">
+    <h2 class="dh-section__title" id="walkthrough-title">One app action, three steps</h2>
+    <p>Imagine saving a contact called Maya in an app. An identity is the account doing the saving; a data contract defines the shape of a contact.</p>
+    <figure class="action-map" aria-label="An app signs an update; evonodes agree and store it; the app checks the returned proof">
+      <div class="action-map__node"><span>Your app</span><strong>Sign an update</strong><small>“Save Maya”</small></div>
+      <span class="action-map__arrow" aria-hidden="true">→</span>
+      <div class="action-map__node"><span>Evonodes</span><strong>Agree and store</strong><small>Check signature + rules</small></div>
+      <span class="action-map__arrow" aria-hidden="true">→</span>
+      <div class="action-map__node"><span>Your app</span><strong>Read and check</strong><small>Data + signed-state proof</small></div>
+    </figure>
+    <ol>
+      <li><h3 class="dh-h3">1. Write</h3><p>Your app signs an update with your identity’s key and pays a small credit fee. The contact must follow the app’s contract.</p></li>
+      <li><h3 class="dh-h3">2. Agree</h3><p>Evonodes check the signature and rules, agree on the update, and store it. Other apps can read the same permitted data.</p></li>
+      <li><h3 class="dh-h3">3. Read and check</h3><p>An app asks for the contact and checks a proof against the network’s signed state. It can verify that “Maya” is what was stored, even if the answering server is unfamiliar.</p></li>
+    </ol>
+    <p>Public data stays public: use app-specific privacy controls for anything sensitive. A proof confirms stored data; it cannot tell you whether Maya’s details are true.</p>
+
+  </section>
+  <section class="platform-intro" aria-label="Platform in plain language">
+    <h2 class="dh-section__title">Shared data for apps, secured by Dash</h2>
+
+    <p>Follow a real name record in Explorer, or see how an app uses shared documents in Governance polls.</p>
+    <p class="dh-meta"><span><a href="https://explorer.dashhq.org/dpns/?name=dashpay.dash&amp;network=mainnet" data-family="explorer" data-path="/dpns/?name=dashpay.dash" data-network="mainnet">Inspect dashpay.dash on Mainnet →</a></span><span><a href="https://gov.dashhq.org/polls?network=testnet" data-family="gov" data-path="/polls" data-network="testnet">Governance polls on Testnet →</a></span><span><a href="#board">Explore the components above ↑</a></span></p>
+  </section>
+  <h2 class="technical-title dh-section__title">Reading the map</h2>
+  <p class="sub">Your app uses an SDK to sign updates and ask an evonode for data. The evonode runs the rules and stores the result; your device checks the answer using a proof. You can use the SDK without implementing these layers yourself.</p>
+  <p class="sub">The map above names the software behind those three steps. Drive and GroveDB provide both the server’s query code and the client’s proof checks. A root hash identifies the stored state; a quorum’s BLS threshold signature attests to it. Select a component for the implementation details and source.</p>
+  <p class="live">See it live: <a href="https://radar.dashhq.org/" data-family="radar" data-path="/">Radar</a> for evonodes · <a href="https://explorer.dashhq.org/" data-family="explorer" data-path="/">Explorer</a> for proofs.</p>
   </div>
 </main>
 

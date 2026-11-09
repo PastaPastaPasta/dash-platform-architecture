@@ -25,21 +25,44 @@
   a { color: var(--dh-brand-ink); }
 
   /* ---------- masthead ---------- */
-.masthead h1 .execute { color: var(--server); }
-  .masthead h1 .verify { color: var(--dh-brand-ink); }
-  .masthead .sub {
+  .arch-hero .dh-page-header__title {
+    font-size: clamp(36px, 4.4vw, 62px);
+    line-height: 1.02;
+    font-weight: 700;
+    font-stretch: 112%;
+    letter-spacing: -.025em;
+  }
+  .arch-hero .execute, .arch-hero .verify { display: block; }
+  .arch-hero .execute { color: var(--dh-ink); }
+  .arch-hero .verify { color: var(--dh-brand-ink); }
+  .arch-hero .dh-page-header__lede { max-width: 64ch; }
+  .arch-hero .dh-page-header__lede a { white-space: nowrap; }
+  .masthead { padding-bottom: 0; }
+  .legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-top: 20px;
+  }
+  @media (max-width: 599px) {
+    .arch-hero .dh-page-header__title { font-size: 36px; }
+    .legend-row { margin-top: 14px; }
+  }
+  .after-board .sub {
     margin: 18px 0 0;
     max-width: 68ch;
     font-size: 16px;
     color: var(--muted);
   }
-  .masthead .sub strong { color: var(--ink); font-weight: 600; }
+  .after-board .sub strong { color: var(--ink); font-weight: 600; }
 
   .legend {
     display: flex;
     flex-wrap: wrap;
     gap: 18px;
-    margin-top: 26px;
+    margin-top: 0;
     font-family: var(--dh-mono);
     font-size: 12px;
     color: var(--muted);
@@ -56,10 +79,15 @@
 
   /* ---------- board ---------- */
   .board-wrap {
-
-    margin-block: 40px 0;
+    display: flex;
+    flex-direction: column;
+    margin-block: 28px 0;
     padding-block: 0 24px;
   }
+  .board-wrap > .board { order: 1; }
+  .board-wrap > .relationship-map { order: 2; margin-top: 32px; }
+  .board-wrap > .after-board { order: 3; margin-top: 16px; }
+  #walkthrough { scroll-margin-top: 76px; }
   .board {
     position: relative;
     display: grid;
@@ -318,7 +346,7 @@ body{font-size:15px}
 :focus-visible{outline:2px solid var(--dh-focus);outline-offset:2px}
 .skip{position:absolute;left:-10000px;z-index:100;background:var(--panel);padding:12px}.skip:focus{left:12px;top:12px}
 .legend,.drawer-kind{font-family:var(--dh-font);font-size:13px;text-transform:none}
-.masthead h1 .execute,.col-server .col-head{color:var(--ink)}
+.col-server .col-head{color:var(--ink)}
 .live{color:var(--muted);font-size:14px;margin-top:16px}.live a{display:inline-block;padding:6px 2px;text-underline-offset:3px}
 .swatch.server,.basebar{border:1px solid color-mix(in srgb,var(--dh-plate-line) 40%,transparent)}
 .card:hover,.card:focus-visible,.basebar:hover,.basebar:focus-visible{transform:none;box-shadow:none}
@@ -327,7 +355,7 @@ body{font-size:15px}
 .links a{color:var(--dh-brand-ink);overflow-wrap:anywhere;min-height:40px}
 dashhq-footer{display:block;margin-top:32px}
 dashhq-footer p{margin:8px 0}
-@media(max-width:899px){.board-wrap{margin-top:24px}.legend{gap:12px}.duo{grid-template-columns:1fr}.drawer-top{padding:20px 16px 16px}.drawer-body{padding:16px}.drawer-crate{display:block;padding-right:35px}}
+@media(max-width:899px){.board-wrap > .relationship-map{order:0;margin-top:0}.legend{gap:12px}.duo{grid-template-columns:1fr}.drawer-top{padding:20px 16px 16px}.drawer-body{padding:16px}.drawer-crate{display:block;padding-right:35px}}
 
 body.details-open{overflow:hidden}
 
@@ -381,9 +409,8 @@ dashhq-footer { margin-top: auto; padding-top: 32px; }
   .board [data-id] { scroll-margin-top: 124px; }
 }
 
-.component-nav { margin-bottom: 24px; }
-.component-groups { margin: 0 0 4px; }
-.component-groups a { display: inline-flex; min-height: 44px; align-items: center; }
+.legend-row .component-nav { margin: 0; display: flex; align-items: center; gap: 16px; }
+.component-groups { display: none; }
 .component-index__groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding-block: 12px; }
 .component-index__groups ul { list-style: none; margin: 8px 0 16px; padding: 0; }
 .component-index__groups a { display: inline-flex; align-items: center; min-height: 44px; padding-block: 6px; }
