@@ -191,11 +191,11 @@
     <h2 class="dh-section__title" id="walkthrough-title">One app action, three steps</h2>
     <p>Imagine saving a contact called Maya in an app. An identity is the account doing the saving; a data contract defines the shape of a contact.</p>
     <figure class="action-map" aria-label="An app signs an update; evonodes agree and store it; the app checks the returned proof">
-      <div class="action-map__node"><span>Your app</span><strong>Sign an update</strong><small>“Save Maya”</small></div>
+      <div class="action-map__node"><div class="action-map__tiles" aria-hidden="true"><span class="action-map__tile">APP</span></div><span>Your app</span><strong>Sign an update</strong><small>“Save Maya”</small></div>
       <span class="action-map__arrow" aria-hidden="true">→</span>
-      <div class="action-map__node"><span>Evonodes</span><strong>Agree and store</strong><small>Check signature + rules</small></div>
+      <div class="action-map__node"><div class="action-map__tiles" aria-hidden="true"><span class="action-map__tile action-map__tile--ref">DAPI</span><span class="action-map__tile action-map__tile--net">DRIVE</span><span class="action-map__tile action-map__tile--net">TD</span></div><span>Evonodes</span><strong>Agree and store</strong><small>Check signature + rules</small></div>
       <span class="action-map__arrow" aria-hidden="true">→</span>
-      <div class="action-map__node"><span>Your app</span><strong>Read and check</strong><small>Data + signed-state proof</small></div>
+      <div class="action-map__node"><div class="action-map__tiles" aria-hidden="true"><span class="action-map__tile">APP</span></div><span>Your app</span><strong>Read and check</strong><small>Data + signed-state proof</small></div>
     </figure>
     <ol>
       <li><h3 class="dh-h3">1. Write</h3><p>Your app signs an update with your identity’s key and pays a small credit fee. The contact must follow the app’s contract.</p></li>
