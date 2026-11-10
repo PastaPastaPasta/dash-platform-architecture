@@ -2,6 +2,13 @@
 const GH = "https://github.com/dashpay";
 const PKG = GH + "/platform/tree/master/packages";
 
+document.addEventListener("dashhq-theme", () => {
+  const top = window.scrollY;
+  requestAnimationFrame(() => {
+    if (window.scrollY !== top) window.scrollTo({ top, left: 0, behavior: "instant" });
+  });
+});
+
 const DATA = {
   "tenderdash": {
     name: "Tenderdash", side: "server", kind: "Consensus engine · Go",
