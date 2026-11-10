@@ -3,9 +3,9 @@ const GH = "https://github.com/dashpay";
 const PKG = GH + "/platform/tree/master/packages";
 
 document.addEventListener("dashhq-theme", () => {
-  const top = window.scrollY;
+  const { scrollX: left, scrollY: top } = window;
   requestAnimationFrame(() => {
-    if (window.scrollY !== top) window.scrollTo({ top, left: 0, behavior: "instant" });
+    window.scrollTo({ top, left, behavior: "instant" });
   });
 });
 
