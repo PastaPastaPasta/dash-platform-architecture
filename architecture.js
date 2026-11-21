@@ -392,7 +392,7 @@ document.getElementById("drawer-related").addEventListener("click", e => {
 closeBtn.addEventListener("click", closeDrawer);
 scrim.addEventListener("click", closeDrawer);
 addEventListener("keydown", e => {
-  if (drawer.hidden) return;
+  if (drawer.hidden || closeTimer !== null) return;
   if (e.key === "Escape") {
     closeDrawer();
     return;

@@ -8,4 +8,4 @@ The pinned family bar, footer, Archivo font and mark are self-hosted under `dash
 
 On phones the map becomes a vertical component list; component details still open with one tap. Source links lead to the relevant Dash repositories.
 
-Local checks: `node --check architecture.js`, `node --check family-links.js`, and the static copy build. There is no package-managed test, lint or typecheck suite. In the family lab, use `../../lab/build.sh arch` and the guarded screenshot runner from the lab root.
+Local checks: `node --check architecture.js` and the static copy build. There is no package-managed test, lint or typecheck suite. In the family lab, use `../../lab/build.sh arch` and the guarded screenshot runner from the lab root.
