@@ -335,6 +335,24 @@ const scrim = document.getElementById("scrim");
 const closeBtn = document.getElementById("drawer-close");
 let lastFocus = null;
 let closeTimer = null;
+let lockedY = null;
+const sheet = matchMedia("(max-width: 599px)");
+
+function lockPage() {
+  if (lockedY !== null || !sheet.matches) return;
+  lockedY = scrollY;
+  document.body.style.top = `-${lockedY}px`;
+  document.documentElement.classList.add("details-lock");
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function unlockPage() {
+  if (lockedY === null) return;
+  document.documentElement.classList.remove("details-lock");
+  document.body.style.top = "";
+  window.scrollTo({ top: lockedY, behavior: "instant" });
+  lockedY = null;
+}
 
 function openDrawer(id) {
   const d = DATA[id];
@@ -358,6 +376,7 @@ function openDrawer(id) {
 
   if (drawer.hidden) {
     lastFocus = document.activeElement;
+    lockPage();
     drawer.hidden = false;
     scrim.hidden = false;
   }
@@ -380,7 +399,8 @@ function closeDrawer() {
   matchMedia("(prefers-reduced-motion: reduce)").matches ? done() : closeTimer = setTimeout(done, 240);
   document.querySelectorAll('body > [inert]').forEach(el => { el.inert = false; });
   document.body.classList.remove('details-open');
-  if (lastFocus) lastFocus.focus();
+  unlockPage();
+  if (lastFocus) lastFocus.focus({ preventScroll: true });
 }
 
 document.querySelectorAll("[data-id]").forEach(el =>
@@ -416,9 +436,10 @@ addEventListener("keydown", e => {
 const TRACES = [
   { from: "drive-abci", to: "dapi", cls: "t-link" },
   { from: "dapi", to: "rs-sdk", cls: "t-link" },
-  { from: "drive", to: "drive-verify", cls: "t-twin" },
-  { from: "grovedb", to: "grovedb-verify", cls: "t-twin" },
-  { from: "tenderdash", to: "proof-check", cls: "t-proof", route: "spine" }
+  { from: "drive", to: "drive-verify", cls: "t-twin", label: "same crate · verify" },
+  { from: "grovedb", to: "grovedb-verify", cls: "t-twin", label: "same crate · verify" },
+  { from: "tenderdash", to: "proof-check", cls: "t-proof", route: "spine",
+    label: "1 BLS threshold signature attests the root hash", lcls: "proof", at: 0.72 }
 ];
 
 const board = document.getElementById("board");
@@ -432,12 +453,45 @@ function anchor(el, side) {
   return { x, y };
 }
 
+function boxOf(el) {
+  const b = board.getBoundingClientRect();
+  const r = el.getBoundingClientRect();
+  return { l: r.left - b.left, r: r.right - b.left, t: r.top - b.top, b: r.bottom - b.top };
+}
+
+const hits = (a, z) => a.l < z.r && z.l < a.r && a.t < z.b && z.t < a.b;
+
+function placeLabel(path, { label: text, lcls: cls, at = 0.5 }, avoid) {
+  const label = document.createElement("span");
+  label.className = `trace-label ${cls || ""}`;
+  label.setAttribute("aria-hidden", "true");
+  label.textContent = text;
+  board.appendChild(label);
+  const w = label.offsetWidth / 2 + 6;
+  const h = label.offsetHeight / 2 + 6;
+  const len = path.getTotalLength();
+  let best = null;
+  for (let i = 1; i < 60; i++) {
+    const pt = path.getPointAtLength(len * i / 60);
+    const box = { l: pt.x - w, r: pt.x + w, t: pt.y - h, b: pt.y + h };
+    if (avoid.some(z => hits(box, z))) continue;
+    const cost = Math.abs(i / 60 - at);
+    if (!best || cost < best.cost) best = { pt, box, cost };
+  }
+  if (!best) { label.remove(); return; }
+  label.style.left = `${best.pt.x}px`;
+  label.style.top = `${best.pt.y}px`;
+  avoid.push(best.box);
+}
+
 function drawTraces() {
   svg.innerHTML = "";
+  board.querySelectorAll(".trace-label").forEach(l => l.remove());
   if (innerWidth < 900) return;
 
   const b = board.getBoundingClientRect();
   svg.setAttribute("viewBox", `0 0 ${b.width} ${b.height}`);
+  const avoid = [...board.querySelectorAll(".card, .spine-note, .col-head, .basebar")].map(boxOf);
 
   for (const t of TRACES) {
     const fromEl = document.querySelector(`[data-id="${t.from}"]`);
@@ -457,6 +511,15 @@ function drawTraces() {
     }
     p.setAttribute("class", t.cls);
     svg.appendChild(p);
+    for (const end of [a, c]) {
+      const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      dot.setAttribute("cx", end.x);
+      dot.setAttribute("cy", end.y);
+      dot.setAttribute("r", t.cls === "t-proof" ? 4 : 3);
+      dot.setAttribute("class", t.cls === "t-proof" ? "t-dot proof" : "t-dot");
+      svg.appendChild(dot);
+    }
+    if (t.label) placeLabel(p, t, avoid);
   }
 }
 
