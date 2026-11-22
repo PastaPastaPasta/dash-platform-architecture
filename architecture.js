@@ -336,10 +336,9 @@ const closeBtn = document.getElementById("drawer-close");
 let lastFocus = null;
 let closeTimer = null;
 let lockedY = null;
-const sheet = matchMedia("(max-width: 599px)");
 
 function lockPage() {
-  if (lockedY !== null || !sheet.matches) return;
+  if (lockedY !== null) return;
   lockedY = scrollY;
   document.body.style.top = `-${lockedY}px`;
   document.documentElement.classList.add("details-lock");
@@ -383,7 +382,6 @@ function openDrawer(id) {
   requestAnimationFrame(() => { drawer.classList.add("open"); scrim.classList.add("open"); });
   drawer.querySelector(".drawer-body").scrollTop = 0;
   document.querySelectorAll('body > :not(.drawer):not(.scrim):not(script)').forEach(el => { el.inert = true; });
-  document.body.classList.add('details-open');
   closeBtn.focus();
 }
 
@@ -398,7 +396,6 @@ function closeDrawer() {
   };
   matchMedia("(prefers-reduced-motion: reduce)").matches ? done() : closeTimer = setTimeout(done, 240);
   document.querySelectorAll('body > [inert]').forEach(el => { el.inert = false; });
-  document.body.classList.remove('details-open');
   unlockPage();
   if (lastFocus) lastFocus.focus({ preventScroll: true });
 }

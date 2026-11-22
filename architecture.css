@@ -374,7 +374,6 @@ dashhq-footer{display:block;margin-top:32px}
 dashhq-footer p{margin:8px 0}
 @media(max-width:899px){.board-wrap > .relationship-map{order:0;margin-top:0}.legend{gap:12px}.duo{grid-template-columns:1fr}.drawer-top{padding:20px 16px 16px}.drawer-body{padding:16px}.drawer-crate{display:block;padding-right:35px}}
 
-body.details-open{overflow:hidden}
 
 .platform-intro{max-width:68ch;margin-top:28px}.platform-intro p{color:var(--dh-ink-2)}
 .platform-intro a{display:inline-block;min-height:40px;padding:8px 0}
