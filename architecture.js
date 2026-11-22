@@ -342,15 +342,19 @@ function lockPage() {
   lockedY = scrollY;
   document.body.style.top = `-${lockedY}px`;
   document.documentElement.classList.add("details-lock");
-  window.scrollTo({ top: 0, behavior: "instant" });
 }
 
 function unlockPage() {
   if (lockedY === null) return;
   document.documentElement.classList.remove("details-lock");
   document.body.style.top = "";
-  window.scrollTo({ top: lockedY, behavior: "instant" });
+  const root = document.documentElement.style;
+  const prev = root.scrollBehavior;
+  root.scrollBehavior = "auto";
+  window.scrollTo(0, lockedY);
+  root.scrollBehavior = prev;
   lockedY = null;
+  drawTraces();
 }
 
 function openDrawer(id) {
@@ -373,9 +377,9 @@ function openDrawer(id) {
     (d.related || []).filter(r => DATA[r])
       .map(r => `<button class="dh-btn dh-btn--sm" type="button" data-goto="${r}">${DATA[r].name}</button>`).join("");
 
+  if (drawer.hidden || !drawer.classList.contains("open")) lastFocus = document.activeElement;
+  lockPage();
   if (drawer.hidden) {
-    lastFocus = document.activeElement;
-    lockPage();
     drawer.hidden = false;
     scrim.hidden = false;
   }

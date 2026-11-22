@@ -482,7 +482,7 @@ dashhq-footer { margin-top: auto; padding-top: 32px; }
   .drawer { width: 100%; border-left: 0; box-shadow: none; }
   .scrim { -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
-html.details-lock { overflow: hidden; }
+html.details-lock { overflow: hidden; scrollbar-gutter: stable; }
 html.details-lock body { position: fixed; inset-inline: 0; width: 100%; }
 .drawer-body { overscroll-behavior: contain; }
 .drawer-refs { display: grid; gap: 4px; margin-top: 4px; padding-block: 4px 16px; border-bottom: 1px solid var(--line); }
