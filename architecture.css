@@ -239,8 +239,7 @@
   }
   .basebar:focus-visible { outline: 2px solid var(--dh-focus); outline-offset: 2px; }
   .basebar .crate { font-family: var(--dh-mono); font-size: 13px; color: var(--dh-plate-ink-2); }
-  .basebar .role { font-size: 13px; color: var(--dh-plate-ink-2); flex-basis: 100%; }
-  @media (min-width: 900px) { .basebar .role { flex-basis: auto; margin-left: auto; text-align: right; max-width: 76ch; } }
+  .basebar .role { font-size: 14px; line-height: 1.55; color: var(--dh-plate-ink-2); flex-basis: 100%; max-width: 86ch; text-align: left; }
 
   /* reveal animation */
   @media (prefers-reduced-motion: no-preference) {
@@ -362,7 +361,7 @@ body{font-size:15px}
 [hidden]{display:none!important}
 :focus-visible{outline:2px solid var(--dh-focus);outline-offset:2px}
 .skip{position:absolute;left:-10000px;z-index:100;background:var(--panel);padding:12px}.skip:focus{left:12px;top:12px}
-.legend,.drawer-kind{font-family:var(--dh-font);font-size:13px;text-transform:none}
+.legend,.drawer-kind{font-family:var(--dh-font);font-size:14px;text-transform:none}
 .col-server .col-head{color:var(--ink)}
 .live{color:var(--muted);font-size:14px;margin-top:16px}.live a{display:inline-block;padding:6px 2px;text-underline-offset:3px}
 .swatch.server,.basebar{border:1px solid color-mix(in srgb,var(--dh-plate-line) 40%,transparent)}
