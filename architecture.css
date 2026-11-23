@@ -410,11 +410,11 @@ dashhq-footer { margin-top: auto; padding-top: 32px; }
 .col-head a { font-size: var(--dh-fs-ui); white-space: nowrap; font-weight: 500; text-underline-offset: 3px; }
 #relationships { scroll-margin-top: 76px; }
 
-.action-map { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: start; gap: 12px; margin: 20px 0; padding: 20px 16px; background: var(--dh-plate); color: var(--dh-plate-ink); border-radius: var(--dh-r3); }
+.action-map { border: 1px solid var(--dh-line); display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: start; gap: 12px; margin: 20px 0; padding: 20px 16px; background: var(--dh-plate); color: var(--dh-plate-ink); border-radius: var(--dh-r3); }
 .action-map__node { display: grid; gap: 4px; min-width: 0; }
 .action-map__node > span { font-size: 13px; }
 .action-map__node small { font-size: 13px; }
-.action-map__arrow { color: var(--dh-act); font-size: 22px; }
+.action-map__arrow { color: var(--dh-flow); font-size: 26px; font-weight: 700; }
 #board { scroll-margin-top: 84px; }
 .stack-path { line-height: 1.8; }
 @media(max-width:599px) {
@@ -445,7 +445,7 @@ dashhq-footer { margin-top: auto; padding-top: 32px; }
 .col-server { --column-tier: var(--dh-tier-net); --column-soft: var(--dh-tier-net-soft); }
 .col-spine { --column-tier: var(--dh-tier-ref); --column-soft: var(--dh-tier-ref-soft); }
 .col-client { --column-tier: var(--dh-tier-platform); --column-soft: var(--dh-tier-platform-soft); }
-.col { background: var(--column-soft); padding: 12px; border-radius: var(--dh-r3); }
+.col { background: var(--column-soft); padding: 12px; border-radius: var(--dh-r3); border: 1px solid color-mix(in srgb, var(--column-tier) 35%, var(--dh-line)); }
 @media (min-width: 900px) { .col.col-spine { background: none; padding-inline: 0; } }
 .basebar { background: var(--dh-plate); }
 .col .col-head { color: var(--dh-ink); background: var(--column-soft); border-bottom: 0; border-left: 4px solid var(--column-tier); padding: 0 0 0 12px; text-align: left; }
@@ -486,3 +486,16 @@ html.details-lock body { position: fixed; inset-inline: 0; width: 100%; }
 .drawer-refs h3 { margin-top: 8px; }
 .drawer-body .drawer-refs + h3 { margin-top: 16px; }
 .related { padding-top: 4px; }
+
+/* Component cards: the human name first, the crate under it; descriptions at a readable size. */
+.card { display: flex; flex-direction: column; }
+.card .name { order: -1; margin-top: 0; }
+.card .crate { margin-top: 2px; }
+.card .role { font-size: 14px; }
+.card.spine .crate { text-align: center; }
+.basebar { border-color: var(--dh-line-2); }
+/* One "Index" link on the wide board; each stacked column keeps its own on phones. */
+@media (min-width: 900px) { .col-spine .col-head a, .col-client .col-head a { display: none; } }
+/* The headline names the sides by what they are once the columns stack. */
+.dh-page-header__title .narrow { display: none; }
+@media (max-width: 899px) { .dh-page-header__title .wide { display: none; } .dh-page-header__title .narrow { display: inline; } }
